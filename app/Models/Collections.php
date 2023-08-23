@@ -13,6 +13,8 @@ class Collections extends Model
 
     public $timestamps = false;
 
+    protected $fillable = ['title', 'description', 'target_amount', 'link', 'user_id'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

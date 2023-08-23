@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->foreignIdFor(Collections::class);
             $table->string('user_name');
-            $table->float('amount');
+            $table->float('amount', 20, 2);
         });
     }
 

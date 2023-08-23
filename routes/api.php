@@ -23,4 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('collections', CollectionController::class);
 
 Route::apiResource('collections.contributors', ContributorController::class)
-    ->scoped(['collection' => 'contributor']);
+    ->scoped();

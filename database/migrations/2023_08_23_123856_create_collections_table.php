@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('title');
             $table->text('description');
-            $table->float('target_amount', 10, 2);
+            $table->float('target_amount', 20, 2);
             $table->string('link');
 
             $table->timestamp('created_at')->useCurrent();

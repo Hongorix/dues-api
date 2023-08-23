@@ -12,6 +12,8 @@ class Contributors extends Model
 
     public $timestamps = false;
 
+    protected $fillable = ['user_name', 'amount'];
+
     public function collections(): BelongsTo
     {
         return $this->belongsTo(Collections::class);
