@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ContributorsRecource;
 use App\Models\Collections;
 use App\Models\Contributors;
 use Illuminate\Http\Request;
 
 class ContributorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'store']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -17,9 +20,10 @@ class ContributorController extends Controller
     {
         $contributors = $collection->contributors();
 
-        return ContributorsRecource::collection(
-            $contributors->get()
-        );
+        return $contributors->get();
+        // return ContributorsRecource::collection(
+        //     $contributors->get()
+        // );
     }
 
     /**
@@ -34,7 +38,8 @@ class ContributorController extends Controller
             ])
         ]);
 
-        return new ContributorsRecource($contributor);
+        return $contributor;
+        // return new ContributorsRecource($contributor);
     }
 
     /**
@@ -42,7 +47,8 @@ class ContributorController extends Controller
      */
     public function show(Collections $collection, Contributors $contributor)
     {
-        return new ContributorsRecource($contributor);
+        return $contributor;
+        // return new ContributorsRecource($contributor);
     }
 
     /**
@@ -57,7 +63,8 @@ class ContributorController extends Controller
             ])
         );
 
-        return new ContributorsRecource($contributor);
+        return $contributor;
+        // return new ContributorsRecource($contributor);
     }
 
     /**

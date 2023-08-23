@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CollectionsRecource;
 use App\Models\Collections;
-use App\Models\Contributors;
 use Illuminate\Http\Request;
 
 class CollectionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -43,7 +47,7 @@ class CollectionController extends Controller
                     'regex:/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[a-zA-Z0-9-._?=&]*)?$/'
                 ]
             ]),
-            'user_id' => 1
+            'user_id' => $request->user()->id
         ]);
 
         return new CollectionsRecource($collection);
