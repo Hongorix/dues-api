@@ -16,7 +16,7 @@ installed [php8+](https://www.php.net/) and [Laravel](https://laravel.com/) Fram
 
 <img src="https://i.imgur.com/f6lFVGG.png">
 
-In this project we using two main tables: collections, contributions. Users table only for authorization and creating new collections.
+In this project we use two main tables: collections, contributions. Users table only for authorization and creating new collections.
 
 # Avaible requests
 
