@@ -1,16 +1,18 @@
 # Dues API
 
-API with CRUD operations, filtering and authorization with Sanctum.
+API with CRUD operations, filtering and authorization with Sanctum. Also it has factory and seeders to quickly fill up your DB with new data. Project based on [Laravel](https://laravel.com/) Framework.
 
 To use this API you need make sure that you have
-installed [php8+](https://www.php.net/) and [Laravel](https://laravel.com/) Framework.
+installed [php8+](https://www.php.net/) and [Composer](https://getcomposer.org/download/).
 
 # Getting started
 
 1. Clone repository.
-2. Set up new database using docker-compose file, or connect exiting one.
-3. Run `php artisan migrate:refresh --seed` to fill your database.
-4. Run `php artisan serve` to launch API.
+2. In project folder run `composer install` commad.
+3. Set up new database using `docker-compose up` command, or connect exiting one.
+4. Run `cp .env.example .env` command and edit .env file for database connection.
+5. Run `php artisan migrate` if you are setting up new DB then run `php artisan migrate:refresh --seed` to fill your database.
+6. Run `php artisan serve` to launch API.
 
 # Database structure
 
