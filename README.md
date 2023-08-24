@@ -1,66 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dues API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API with CRUD operations, filtering and authorization with Sanctum.
 
-## About Laravel
+To use this API you need make sure that you have
+installed [php8+](https://www.php.net/) and [Laravel](https://laravel.com/) Framework.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Getting started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Clone repository.
+2. Set up new database using docker-compose file, or connect exiting one.
+3. Run `php artisan migrate:refresh --seed` to fill your database.
+4. Run `php artisan serve` to launch API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Database structure
 
-## Learning Laravel
+<img src="https://i.imgur.com/f6lFVGG.png">
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+In this project we using two main tables: collections, contributions. Users table only for authorization and creating new collections.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Avaible requests
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<img src="https://i.imgur.com/Yldd4dY.png">
 
-## Laravel Sponsors
+Assume we have variable called {{BASE_URL}}.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+{{BASE_URL}} = `http://127.0.0.1:8000/api/` - it will be our variable for endpoints.
 
-### Premium Partners
+## API calls:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+**Obtain token** - `{{BASE_URL}}login`, method POST, require JSON body with "email" and "password". You can obtain token for user from users table. Take email from users table, password by default will be "password"(if you fill DB via seeding).
 
-## Contributing
+**Create new collections** - `{{BASE_URL}}collections`, method POST, require JSON body with "title","description","target_amount" and "link". Also only authorized users can create collections (Bearer Token).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Get list of all collections** - `{{BASE_URL}}collections`, method GET, does not require authorization.
 
-## Code of Conduct
+**Add contribution** - `{{BASE_URL}}collections/{collections_id}/contributors`, method POST, require JSON body with "user_name" and "amount", does not require authorization.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**View collection details** - `{{BASE_URL}}collections/{collections_id}`, method GET, does not require authorization. View collection data and all contributors("user_name" and "amount") in this collection.
 
-## Security Vulnerabilities
+**Contribution filtering** - `{{BASE_URL}}collections?ShowOnlyUnfinished`, method GET, does not require authorization. Will display only unfinished collections(all contribution amount less that target_amount). You will view collections data with all contributors in it.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Edit collection** - `{{BASE_URL}}collections/{collections_id}`, method PUT, require authorization and JSON body with one or more parameters: "title","description","target_amount" and "link".
 
-## License
+**Delete collection** - `{{BASE_URL}}collections/{collections_id}`, method DELETE, require authorization. Will return 204 status code if deleted successfully.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Edit contribution** - `{{BASE_URL}}collections/{collections_id}/contributors/{contributors_id}`, method PUT, require authorization and JSON body with one or two parameters: "user_name","amount".
+
+**Delete contribution** - `{{BASE_URL}}collections/{collections_id}/contributors/{contributors_id}`, method DELETE, require authorization. Will return 204 status code if deleted successfully.
+
+If you entering parameters make sure that you input valid data. All parameters have validation.
